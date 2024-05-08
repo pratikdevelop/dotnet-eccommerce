@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shoppsy Eccommerce App</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/grpc.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&family=Sedan+SC&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="h-[100vh] w-full overflow-y-auto">
+    <header>
+        <div class="flex items-center justify-around p-3 m-2 bg-white shadow-2xl shadow-indigo-400 mb-3">
+            <a class="font-bold text-2xl" asp-area="" asp-controller="Home" asp-action="Index">Shoppsy Eccommerce</a>
+            <div class="flex items-center ml-auto" style="gap: 1rem;">
+                <a class="font-bold text-sm  text-red-900 " asp-area="" asp-controller="Home"
+                    asp-action="Index">Home</a>
+                <a class="font-bold text-sm " id="ordersLink" asp-area="" asp-controller="Home" asp-action="Orders">Orders</a>
+                @if (!string.IsNullOrEmpty(@HttpContextAccessor.HttpContext.Session.GetString("Username")))
+{
+    <p>Welcome, @HttpContextAccessor.HttpContext.Session.GetString("Username")!</p>
+} else {
+ <a class="font-bold text-sm " id="ordersLink" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                <a class="font-bold text-sm " id="ordersLink" asp-area="" asp-controller="Home" asp-action="Signup">Signup</a>
+}
+               
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    @RenderBody()
+
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

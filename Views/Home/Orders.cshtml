@@ -1,0 +1,67 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<div class="flex relative flex-col bg-white p-8 rounded-md">
+    <div>
+        <h2 class="text-gray-600 font-semibold">Products Order</h2>
+        <span class="text-xs">All product items</span>
+    </div>
+
+    <div class="flex relative overflow-x-auto space-x-5 p-4">
+        <div class="inline-block w-7/12 shadow rounded overflow-hidden">
+            <table class="min-w-full leading-normal">
+                <thead>
+                    <tr>
+                        <th class="px-5 py-3 border-b-2 rounded-full border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Name
+                        </th>
+                        <th class="px-5 py-3 border-b-2 rounded-full border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Price
+                        </th>
+                        <th class="px-5 py-3 border-b-2 rounded-full border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Quantity
+                        </th>
+                        <th class="px-5 py-3 border-b-2 rounded-full border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="order-body">
+                    <!-- Populate table rows dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="rounded-md p-8 w-5/12 shadow rounded">
+            <h2 class="text-2xl font-bold text-[#333]">Complete your order</h2>
+            <form class="mt-10 grid sm:grid-cols-2 gap-6" asp-action="orders" asp-controller="Home" method="post">
+                <h3 class="text-lg col-span-2 font-bold text-[#333]">Personal Details</h3>
+                
+                <input  type="hidden"  value='@HttpContextAccessor.HttpContext.Session.GetString("userId")'/>
+                <input class="px-4 py-2 bg-white text-[#333] w-full text-sm border-2 rounded-full focus:border-[#333] outline-none
+" type="text" placeholder="Your Name"                       class="input-field" />
+                <input class="px-4 py-2 bg-white text-[#333] w-full text-sm border-2 rounded-full focus:border-[#333] outline-none
+" type="number" min="1" max="10" placeholder="Phone No."
+                       class="input-field" />
+                <input class="px-4  col-span-2 py-2 bg-white text-[#333] w-full text-sm border-2 rounded-full focus:border-[#333] outline-none
+" type="email" placeholder="Email"
+                       class="input-field" />
+
+                <h3 class="text-lg col-span-2 font-bold text-[#333]">Shipping Address</h3>
+                <input class="px-4 py-2 bg-white text-[#333] w-full text-sm border-2 rounded-full focus:border-[#333] outline-none
+" type="text" placeholder="Address Line" class="input-field" />
+                <input class="px-4 py-2 bg-white text-[#333] w-full text-sm border-2 rounded-full focus:border-[#333] outline-none
+" type="text" placeholder="City" class="input-field" />
+                <input class="px-4 py-2 bg-white text-[#333] w-full text-sm border-2 rounded-full focus:border-[#333] outline-none
+" type="text" placeholder="State" class="input-field" />
+                <input class="px-4 py-2 bg-white text-[#333] w-full text-sm border-2 rounded-full focus:border-[#333] outline-none
+" type="text" placeholder="Zip Code" class="input-field" />
+
+                <div class="flex relative col-span-2 items-center justify-around">
+                    <button type="button" class="rounded-full w-full ml-2 px-6 py-2  text-sm font-bold bg-transparent hover:bg-gray-100 border-2 text-[#333]
+">Cancel</button>
+                    <button type="submit" class="rounded-full w-full ml-2 px-6 py-2  text-sm font-bold bg-[#333] text-white hover:bg-[#222]">Complete Purchase</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

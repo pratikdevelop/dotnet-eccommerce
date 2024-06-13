@@ -65,3 +65,4 @@ C:\Users\Shubh\Desktop\grpc\obj\Debug\net8.0\ref\grpc.dll
 C:\Users\Shubh\Desktop\grpc\obj\Debug\net8.0\grpc.csproj.AssemblyReference.cache
 C:\Users\Shubh\Desktop\grpc\bin\Debug\net8.0\Npgsql.dll
 C:\Users\Shubh\Desktop\grpc\obj\Debug\net8.0\grpc.csproj.Up2Date
+C:\Users\Shubh\Desktop\grpc\obj\Debug\net8.0\grpc.sourcelink.json

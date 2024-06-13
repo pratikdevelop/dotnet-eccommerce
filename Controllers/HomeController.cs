@@ -80,29 +80,53 @@ public class Rating
 
     public async Task<IActionResult> Index()
     {
-        HttpResponseMessage response = await _httpClient.GetAsync("https://fakestoreapi.com/products");
-
-        if (response.IsSuccessStatusCode)
+        try
         {
-            // Parse the API response
-            var responseData = await response.Content.ReadAsStringAsync();
-            List<Product> productList = JsonSerializer.Deserialize<List<Product>>(responseData);
+            // Use DatabaseContext to establish connection
+            using (var db = new DatabaseContext(connectionString))
+            {
+                db.Open();
+       
+                string sql = "SELECT * FROM products";
+                using (var getProductsCmd = new NpgsqlCommand(sql, db.GetConnection()))
+                {
+                    using (var productsReader = getProductsCmd.ExecuteReader())
+                    {
+                        List<Product> products = new List<Product>();
 
-            // Console.WriteLine(typeof(jsonArray));
-            // Pass the API response data to the view
-            ViewBag.ApiData = productList;
+                        while (productsReader.Read())
+                        {
+                            var product = new Product
+                            {
+                                id = Convert.ToInt32(productsReader["product_id"]),
+                                title = productsReader["name"].ToString(),
+                                price = Convert.ToInt32(productsReader["price"]),
+                                description = productsReader["description"].ToString(),
+                                category = productsReader["category"].ToString(),
+                                image = productsReader["image_url"].ToString(),
+                            };
+                            products.Add(product);
+                        }
 
-            return View();
-        }
-        else
+                        ViewBag.ApiData = products;
+                        Console.WriteLine("products");
+                        Console.WriteLine(products);
+
+                return View();
+                    }
+                }
+
+            }
+        }  
+        catch (Exception ex)
         {
-            Console.WriteLine("Failed to fetch data from the API.");
-            // Handle API error
-            ViewBag.ErrorMessage = "Failed to fetch data from the API.";
+            // Handle any exceptions (e.g., database connection error)
+            ViewBag.ErrorMessage = "An error occurred during login.";
+            Console.WriteLine(ex);
             return View();
-        }
+        }          
     }
-
+            
     public IActionResult Orders()
     {
         if (HttpContext.Session.GetString("Username") == null)
